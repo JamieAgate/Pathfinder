@@ -7,7 +7,6 @@ Node::Node(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, i
 	y = _gridy;
 	Moveable = true;
 	isGoal = false;
-	searched = false;
 	isStart = false;
 	parent = nullptr;
 	f = 0;

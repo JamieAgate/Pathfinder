@@ -11,6 +11,9 @@ public:
 	void SetX(int _x) { position.x = _x; }
 	void SetY(int _y) { position.y = _y; }
 
+	int GetX() { return position.x; }
+	int GetY() { return position.y; }
+
 	void setTexture(SDL_Texture* _tex);
 
 	void Draw();

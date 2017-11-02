@@ -1,8 +1,9 @@
 #pragma once
-#include "Sprite.h"
 #include <SDL/SDL.h>
 #include <SDL_image.h>
 #include <vector>
+
+#include "Sprite.h"
 
 class Node : public Sprite {
 public:
@@ -14,12 +15,11 @@ public:
 	bool getIsGoal() { return isGoal; }
 	std::vector<Node*> getNeighbours() { return Neighbours; }
 	Node* getParent() { return parent; }
-	bool getSearched() { return searched; }
 	bool getIsMoveable() { return Moveable; }
 	bool getIsStart() { return isStart; }
-	float getH() { return h; }
-	float getG() { return g; }
-	float getF() { return f; }
+	double getH() { return h; }
+	double getG() { return g; }
+	double getF() { return f; }
 
 
 	void setGridX(int _x) { x = _x; };
@@ -28,20 +28,18 @@ public:
 	void SetNeighbours(Node* _node);
 	void setIsGoal(bool _b) { isGoal = _b; }
 	void setParent(Node* _n) { parent = _n; }
-	void setSearched(bool _b) { searched = _b; }
 	void setIsStart(bool _b) { isStart = _b; }
-	void setH(float _h) { h = _h; }
-	void setG(float _g) { g = _g; }
+	void setH(double _h) { h = _h; }
+	void setG(double _g) { g = _g; }
 	void setF() { f = g+h; }
 
 	void Draw();
 private:
-	float h;
-	float g;
-	float f;
+	double h;
+	double g;
+	double f;
 	std::vector <Node*> Neighbours;
 	Node* parent;
-	bool searched;
 	int x;
 	int y;
 	bool Moveable;

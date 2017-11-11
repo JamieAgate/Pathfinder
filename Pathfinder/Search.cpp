@@ -1,12 +1,18 @@
 #include "Search.h"
 
+bool function(Node* i, Node* j) { return(i->getH() < j->getH()); }
+
+struct Sort {
+	bool operator() (Node* i, Node* j) {return i->getH() < j->getH(); }
+}sortH;
+
 Search::Search(StateManager* _stateManager, AIData* _agent) :
 	StateTemplate(_stateManager)
 {
 	agent = _agent;
 	pathFound = false;
-	start = agent->GetStartNode();
-	end = agent->GetEndNode();
+	end = agent->GetCurrentOccupiedNode();
+	start = agent->GetPathEndNode();
 }
 
 Search::~Search()
@@ -16,6 +22,9 @@ Search::~Search()
 
 void Search::Update()
 {
+	end = agent->GetCurrentOccupiedNode();
+	start = agent->GetPathEndNode();
+	ResetGrid();
 	switch (agent->GetSearchType())
 	{
 	case(BREADTH):
@@ -34,15 +43,30 @@ void Search::Update()
 		break;
 	}
 	}
+	int sizeOfPath = 0;
+	end = end->getParent();
 	while (end != start)
 	{
 		path.push_back(end);
 		end = end->getParent();
+		sizeOfPath++;
 	}
 	agent->SetPath(path);
+	agent->SetSizeOfPath(ceil(sizeOfPath/2));
 	if (pathFound)
 	{
 		stateManager->ChangeState(new Movement(stateManager, agent));
+	}
+}
+
+void Search::ResetGrid()
+{
+	std::vector<Node*> grid = agent->GetGrid();
+	for each(Node* n in grid)
+	{
+		n->setG(0);
+		n->setH(0);
+		n->setF();
 	}
 }
 
@@ -73,10 +97,6 @@ void Search::BreadthSearch()
 						{
 							Neighbours.at(i)->setParent(Open.front());
 							Open.push_back(Neighbours.at(i));
-							if (Neighbours.at(i) != end && Neighbours.at(i) != start)
-							{
-								//Neighbours.at(i)->setTexture(searched);
-							}
 						}
 					}
 				}
@@ -105,17 +125,11 @@ void Search::BestFirst()
 	std::vector<Node*> Neighbours;
 	Open.push_back(start);
 	Node* curr = nullptr;
-
 	while (pathFound != true && Open.size() > 0)
 	{
+		std::sort(Open.begin(), Open.end(), sortH);
 		curr = Open.front();
-		for (int i = 0; i < Open.size(); i++)
-		{
-			if (Open.at(i)->getH() < curr->getH())
-			{
-				curr = Open.at(i);
-			}
-		}
+
 		if (curr == end)
 		{
 			pathFound = true;
@@ -135,9 +149,9 @@ void Search::BestFirst()
 						if (!(std::find(Open.begin(), Open.end(), currentNeighbour) != Open.end()))
 						{
 							currentNeighbour->setParent(curr);
-							float a = abs(currentNeighbour->GetGridX() - end->GetGridX());
-							float b = abs(currentNeighbour->getGridY() - end->getGridY());
-							currentNeighbour->setH(sqrt((a*a) + (b*b))*10);
+							float a = abs((currentNeighbour->GetGridX() - end->GetGridX()));
+							float b = abs((currentNeighbour->getGridY() - end->getGridY()));
+							currentNeighbour->setH(sqrt(((a*a) + (b*b))*10));
 							Open.push_back(currentNeighbour);
 
 							if (currentNeighbour != end && currentNeighbour != start)
@@ -153,7 +167,7 @@ void Search::BestFirst()
 	}
 	if (pathFound)
 	{
-		std::cout << noSearched << "\n";
+		//std::cout << noSearched << "\n";
 		Node* rtn = curr;
 		Open.clear();
 		Closed.clear();
@@ -176,7 +190,6 @@ void Search::AStarSearch()
 	bool skip = false;
 	bool isInOpen = false;
 	Open.push_back(start);
-
 	while (Open.size() > 0 && pathFound != true)
 	{
 		int i = 0;
@@ -244,7 +257,6 @@ void Search::AStarSearch()
 					if (!(std::find(Open.begin(), Open.end(), currentNeighbour) != Open.end()))//if its not in open set parent, canclulate g, h and f and put into open
 					{
 						currentNeighbour->setParent(currentNode);//set parent
-
 						currentNeighbour->setG(currentNode->getG() + cost);//set the G score
 						float a = abs((currentNeighbour->GetGridX() - end->GetGridX()));
 						float b = abs((currentNeighbour->getGridY() - end->getGridY()));
@@ -270,7 +282,7 @@ void Search::AStarSearch()
 	Closed.clear();
 	if (pathFound)
 	{
-		std::cout << noSearched << "\n";
+		//std::cout << noSearched << "\n";
 		//return currentNode;
 	}
 	else

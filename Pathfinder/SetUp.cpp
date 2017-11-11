@@ -41,7 +41,7 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 	bmp = IMG_Load("AStarPath.png");
 	aStarPath = SDL_CreateTextureFromSurface(renderer, bmp);
 
-	SDL_FreeSurface(bmp);
+
 
 	Select = new Cursor(_renderer, select, 0, 0, 32, 32);
 	start = new Sprite(_renderer, Start, -32, -32, 32, 32,true);
@@ -62,6 +62,11 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 		}
 	}
 
+	bmp = IMG_Load("Start.png");
+	SDL_Texture* playerTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+	player = new Player(_renderer, playerTex, 0, 0, 32, 32, true, Grid);
+
+	SDL_FreeSurface(bmp);
 	//make the neighbours
 	int i = 0;
 	for (int x = 0; x < GridWIDTH; x++) {
@@ -146,9 +151,9 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 	breadthStateManager = _aiManager;
 	bestFirstManager = _bestFirstStateManager;
 	aStarManager = _aStarStateManager;
-	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer);
-	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer);
-	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer);
+	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer,player);
+	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer,player);
+	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer,player);
 }
 
 SetUp::~SetUp()
@@ -182,11 +187,16 @@ void SetUp::Update()
 			Grid.at(previousStartNode)->setTexture(tile);
 			previousStartNode = currentNode;
 		}
-		start->SetX(Grid.at(currentNode)->GetX());
-		start->SetY(Grid.at(currentNode)->GetY());
-		Grid.at(currentNode)->setIsStart(true);
-		Grid.at(currentNode)->setTexture(Start);
+		//start->SetX(Grid.at(currentNode)->GetX());
+		//start->SetY(Grid.at(currentNode)->GetY());
+		//Grid.at(currentNode)->setIsStart(true);
+		//Grid.at(currentNode)->setTexture(Start);
 		StartNode = Grid.at(currentNode);
+
+		player->SetX((Select->getMouseX() / 32) * 32);
+		player->SetY((Select->getMouseY() / 32) * 32);
+		player->SetCurrentNode();
+
 		breadthFirstData->SetStartNode(Grid.at(currentNode));
 		bestFirstData->SetStartNode(Grid.at(currentNode));
 		aStarData->SetStartNode(Grid.at(currentNode));
@@ -263,7 +273,7 @@ void SetUp::Update()
 	{
 		if (breadthStateManager->GetSizeOfStateVector() != 0 && aStarManager->GetSizeOfStateVector() != 0 && bestFirstManager->GetSizeOfStateVector() != 0 && StartNode != nullptr)
 		{
-			stateManager->ChangeState(new InGame(stateManager, Grid, breadthStateManager,bestFirstManager,aStarManager,renderer));
+			stateManager->ChangeState(new InGame(stateManager, Grid, breadthStateManager,bestFirstManager,aStarManager,renderer,player));
 		}
 	}
 }
@@ -279,4 +289,5 @@ void SetUp::Draw()
 	end->Draw();
 	bestSprite->Draw();
 	aStarSprite->Draw();
+	player->Draw();
 }

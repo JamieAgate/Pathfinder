@@ -5,7 +5,7 @@ Movement::Movement(StateManager* _stateManager, AIData* _agent) :
 {
 	agent = _agent;
 	movementDelayTimer = SDL_GetTicks();
-	inputDelay = SDL_GetTicks() + 500;
+	inputDelay = SDL_GetTicks() + 200;
 	stateSwtich = e_Movement;
 }
 
@@ -32,6 +32,10 @@ void Movement::Update()
 			inputDelay = SDL_GetTicks() + 200;
 			stateSwtich = e_Path;
 			agent->MakeDrawPath();
+		}
+		if (agent->GetSizeOfPath() > agent->GetCurrentSizeOfPath() || agent->GetCurrentSizeOfPath() == 0)
+		{
+			stateManager->ChangeState(new Search(stateManager, agent));
 		}
 	break;
 	}

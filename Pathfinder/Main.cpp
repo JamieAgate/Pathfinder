@@ -13,6 +13,7 @@
 #include "Node.h"
 #include "Cursor.h"
 #include "SetUp.h"
+#include "Player.h"
 
 void MainLoop(SDL_Renderer* _renderer, SDL_Window* _window);
 Node* BreadthSearch(Node* _start, Node* _endNode, bool &_pathfound, SDL_Texture* _searched);
@@ -73,6 +74,7 @@ void MainLoop(SDL_Renderer* _renderer, SDL_Window* _window)
 	StateManager aiStateManager;
 	StateManager bestFirstStateManager;
 	StateManager aStarStateManager;
+	
 	gameStateManager.AddState(new SetUp(&gameStateManager,&aiStateManager ,&bestFirstStateManager,&aStarStateManager,_renderer));
 	while (!quit)
 	{

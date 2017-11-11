@@ -4,11 +4,12 @@
 #include "StateTemplate.h"
 #include "StateManager.h"
 #include "Node.h"
+#include "Player.h"
 
 class InGame : public StateTemplate
 {
 public:
-	InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _aiStateManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager,SDL_Renderer* _renderer);
+	InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _aiStateManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager,SDL_Renderer* _renderer, Player* _player);
 	~InGame();
 
 	void Update();
@@ -20,4 +21,6 @@ protected:
 	StateManager* breadthStateManager;
 	StateManager* bestFirstManager;
 	StateManager* aStarManager;
+
+	Player* player;
 };

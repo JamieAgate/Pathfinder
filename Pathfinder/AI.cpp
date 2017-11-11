@@ -1,6 +1,6 @@
 #include "AI.h"
 
-AIData::AIData(int _searchType, std::vector<Node*> _grid, Sprite* _sprite, SDL_Texture* _pathSprite, SDL_Renderer* _renderer)
+AIData::AIData(int _searchType, std::vector<Node*> _grid, Sprite* _sprite, SDL_Texture* _pathSprite, SDL_Renderer* _renderer, Player* _player)
 {
 	searchType = _searchType;
 	grid = _grid;
@@ -8,6 +8,8 @@ AIData::AIData(int _searchType, std::vector<Node*> _grid, Sprite* _sprite, SDL_T
 	
 	pathSprite = _pathSprite;
 	renderer = _renderer;
+
+	player = _player;
 }
 
 AIData::~AIData()

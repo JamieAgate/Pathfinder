@@ -5,6 +5,7 @@
 #include "StateManager.h"
 #include "Node.h"
 #include "AI.h"
+#include "Search.h"
 
 class Movement : public StateTemplate
 {

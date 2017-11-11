@@ -20,6 +20,8 @@ public:
 	void SetStartNode(Node* _s) { start = _s; }
 	void SetEndNode(Node* _e) { end = _e; }
 
+	void ResetGrid();
+
 	void BreadthSearch();
 	void BestFirst();
 	void AStarSearch();

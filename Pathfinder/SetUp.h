@@ -9,6 +9,7 @@
 #include "AI.h"
 #include "Idle.h"
 #include "InGame.h"
+#include "Player.h"
 
 class SetUp : public StateTemplate
 {
@@ -55,6 +56,8 @@ protected:
 	Sprite* breadthPathSprite;
 	Sprite* bestFirstPathSprite;
 	Sprite* aStarPathSprite;
+
+	Player* player;
 
 	Node* StartNode = nullptr;
 	Node* EndNode = nullptr;

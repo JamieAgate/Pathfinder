@@ -1,6 +1,6 @@
 #include "InGame.h"
 
-InGame::InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _breadthStateManager,StateManager* _bestFirstStateManager, StateManager* _aStarStateManager, SDL_Renderer* _renderer) :
+InGame::InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _breadthStateManager,StateManager* _bestFirstStateManager, StateManager* _aStarStateManager, SDL_Renderer* _renderer, Player* _player) :
 	StateTemplate(_stateManager)
 {
 	renderer = _renderer;
@@ -9,6 +9,8 @@ InGame::InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManag
 	breadthStateManager = _breadthStateManager;
 	bestFirstManager = _bestFirstStateManager;
 	aStarManager = _aStarStateManager;
+
+	player = _player;
 }
 
 InGame::~InGame()
@@ -21,6 +23,8 @@ void InGame::Update()
 	breadthStateManager->Update();
 	bestFirstManager->Update();
 	aStarManager->Update();
+
+	player->Update();
 }
 
 void InGame::Draw()
@@ -32,4 +36,5 @@ void InGame::Draw()
 	breadthStateManager->Draw();
 	bestFirstManager->Draw();
 	aStarManager->Draw();
+	player->Draw();
 }

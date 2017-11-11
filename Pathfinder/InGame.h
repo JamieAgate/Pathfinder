@@ -8,13 +8,16 @@
 class InGame : public StateTemplate
 {
 public:
-	InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _aiStateManager);
+	InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _aiStateManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager,SDL_Renderer* _renderer);
 	~InGame();
 
 	void Update();
 
 	void Draw();
 protected:
+	SDL_Renderer* renderer;
 	std::vector<Node*> grid;
-	StateManager* aiStateManager;
+	StateManager* breadthStateManager;
+	StateManager* bestFirstManager;
+	StateManager* aStarManager;
 };

@@ -14,7 +14,7 @@ Idle::~Idle()
 
 void Idle::Update()
 {
-	if (SDL_GetTicks() - startTimer >= 1000)
+	if (SDL_GetTicks() - startTimer >= 0)
 	{
 		stateManager->ChangeState(new Search(stateManager, agent));
 	}

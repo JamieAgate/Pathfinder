@@ -69,142 +69,11 @@ void MainLoop(SDL_Renderer* _renderer, SDL_Window* _window)
 
 	bool quit = false;
 	SDL_Event e;
-	//std::vector<Node*> Grid;
-	//int GridWIDTH = 30;
-	//int GridHEIGHT = 30;
-	//int previousStartNode = 0;
-	//int previousEndNode = 0;
-	//int currentNode = 0;
-	//enum Search { BREADTH, BEST, ASTAR };
-	//int searchType = BREADTH;
-
-
-	//SDL_Surface* bmp = IMG_Load("tile32.png");
-	//SDL_Texture* tile = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("Start.png");
-	//SDL_Texture* Start = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("End.png");
-	//SDL_Texture* End = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("Wall.png");
-	//SDL_Texture* Wall = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("Select.png");
-	//SDL_Texture* select = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("path.png");
-	//SDL_Texture* Path = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//bmp = IMG_Load("Searched.png");
-	//SDL_Texture* searched = SDL_CreateTextureFromSurface(_renderer, bmp);
-
-	//SDL_FreeSurface(bmp);
-
-	//Cursor* Select = new Cursor(_renderer, select, 0, 0, 32, 32);
-	//Sprite* start = new Sprite(_renderer, Start, -32, -32, 32, 32);
-	//Sprite* end = new Sprite(_renderer, End, -32, -32, 32, 32);
-	//Node* StartNode = nullptr;
-	//Node* EndNode = nullptr;
-	//Node* finished = nullptr;
-	//bool pathfound = false;
-
-	////make the grid
-	//for (int x = 0; x < GridWIDTH; x++)
-	//{
-	//	for (int y = 0; y < GridHEIGHT; y++)
-	//	{
-	//		Node* newNode = new Node(_renderer, tile, x * 32, y * 32, 32, 32, x, y);
-	//		Grid.push_back(newNode);
-	//	}
-	//}
-
-	////make the neighbours
-	//int i = 0;
-	//for (int x = 0; x < GridWIDTH; x++) {
-	//	for (int y = 0; y < GridHEIGHT; y++) 
-	//	{
-	//		if (x == 0)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH));
-	//		}
-	//		else if (x == GridWIDTH - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridHEIGHT));
-	//		}
-	//		else
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridHEIGHT));
-	//		}
-
-	//		if (y == 0)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + 1));
-	//		}
-	//		else if (y == GridHEIGHT - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - 1));
-	//		}
-	//		else
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - 1));
-	//		}
-	//		if (x != 0 && y != 0 && x != GridWIDTH - 1 && y != GridHEIGHT - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
-	//		}
-	//		//edge diagonals
-	//		if (x == 0 && y != 0 && y != GridHEIGHT - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
-	//		}
-	//		if (y == 0 && x != 0 && x != GridWIDTH - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
-	//		}
-	//		if (x == GridWIDTH - 1 && y != 0 && y != GridHEIGHT - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
-	//		}
-	//		if (y == GridHEIGHT - 1 && x != 0 && x != GridWIDTH - 1)
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
-	//		}
-	//		if (x == 0 && y == 0)//top left corner
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
-	//		}
-	//		if (x == 0 && y == GridHEIGHT - 1)//bottom left corner
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-	//		}
-	//		if (x == GridWIDTH - 1 && y == 0)//top right corner
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-	//		}
-	//		if (x == GridWIDTH - 1 && y == GridHEIGHT - 1)// bottom right corner
-	//		{
-	//			Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
-	//		}
-	//		i++;
-	//	}
-	//}
-
-	//StateManager aiStateManager;
-	//AIData* breadthFirstData = new AIData(BREADTH,Grid);
 	StateManager gameStateManager;
 	StateManager aiStateManager;
-	gameStateManager.AddState(new SetUp(&gameStateManager,&aiStateManager ,_renderer));
+	StateManager bestFirstStateManager;
+	StateManager aStarStateManager;
+	gameStateManager.AddState(new SetUp(&gameStateManager,&aiStateManager ,&bestFirstStateManager,&aStarStateManager,_renderer));
 	while (!quit)
 	{
 		while (SDL_PollEvent(&e))
@@ -340,17 +209,6 @@ void MainLoop(SDL_Renderer* _renderer, SDL_Window* _window)
 
 		SDL_RenderPresent(_renderer);
 	}
-	//delete all elements in vector and clear it
-	/*for (size_t i = 0; i < Grid.size(); i++)
-	{
-		delete Grid.at(i);
-	}
-	Grid.clear();
-	delete Select;
-	delete start;
-	delete end;
-	delete StartNode;
-	delete EndNode;*/
 }
 
 Node* BreadthSearch(Node* _start, Node* _endNode, bool &_pathfound, SDL_Texture* _searched)

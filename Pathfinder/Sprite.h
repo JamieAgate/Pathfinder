@@ -5,7 +5,7 @@
 
 class Sprite {
 public:
-	Sprite(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, int _h);
+	Sprite(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, int _h, bool _canDeleteTex);
 	~Sprite();
 
 	void SetX(int _x) { position.x = _x; }
@@ -21,4 +21,5 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Texture* image;
 	SDL_Rect position;
+	bool canDeleteTex;
 };

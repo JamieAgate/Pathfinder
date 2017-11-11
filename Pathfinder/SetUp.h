@@ -13,7 +13,7 @@
 class SetUp : public StateTemplate
 {
 public:
-	SetUp(StateManager* _stateManager,StateManager* _aiManager,SDL_Renderer* _renderer);
+	SetUp(StateManager* _stateManager,StateManager* _aiManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager,SDL_Renderer* _renderer);
 	~SetUp();
 
 	void Update();
@@ -27,6 +27,8 @@ protected:
 	int GridHEIGHT = 30;
 	int previousStartNode = 0;
 	int previousEndNode = 0;
+	int previousAStarNode = 0;
+	int previousBestFirstNode = 0;
 	int currentNode = 0;
 	enum Search { BREADTH, BEST, ASTAR };
 	int searchType = BREADTH;
@@ -38,14 +40,30 @@ protected:
 	SDL_Texture* select;
 	SDL_Texture* Path;
 	SDL_Texture* searched;
+	SDL_Texture* aStarTex;
+	SDL_Texture* bestTex;
 
 	Cursor* Select;
 	Sprite* start;
 	Sprite* end;
+	Sprite* bestSprite;
+	Sprite* aStarSprite;
+
+	SDL_Texture* breadthPath;
+	SDL_Texture* bestPath;
+	SDL_Texture* aStarPath;
+	Sprite* breadthPathSprite;
+	Sprite* bestFirstPathSprite;
+	Sprite* aStarPathSprite;
+
 	Node* StartNode = nullptr;
 	Node* EndNode = nullptr;
 	Node* finished = nullptr;
 
-	StateManager* aiStateManager;
+	StateManager* breadthStateManager;
+	StateManager* bestFirstManager;
+	StateManager* aStarManager;
 	AIData* breadthFirstData;
+	AIData* bestFirstData;
+	AIData* aStarData;
 };

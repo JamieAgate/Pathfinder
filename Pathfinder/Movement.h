@@ -18,4 +18,9 @@ public:
 protected:
 	AIData* agent;
 	int movementDelayTimer;
+
+	int inputDelay;
+
+	enum States { e_Movement, e_Path };
+	int stateSwtich;
 };

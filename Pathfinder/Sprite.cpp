@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, int _h)
+Sprite::Sprite(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, int _h, bool _canDeleteTex)
 {
 	image = _tex;
 	
@@ -10,12 +10,16 @@ Sprite::Sprite(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _
 	position.w = _w;
 	//sets the renderer to use
 	renderer = _renderer;
+	canDeleteTex = _canDeleteTex;
 }
 
 Sprite::~Sprite()
 {
-	if (image)
-		SDL_DestroyTexture(image);
+	if (canDeleteTex)
+	{
+		if (image)
+			SDL_DestroyTexture(image);
+	}
 }
 
 void Sprite::setTexture(SDL_Texture* _tex)

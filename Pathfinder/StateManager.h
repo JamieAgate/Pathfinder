@@ -11,6 +11,8 @@ public:
 	void ChangeState(StateTemplate* _state);
 	void RemoveLastState();
 
+	int GetSizeOfStateVector() { return stateVector.size(); }
+
 	void Update();
 
 	void Draw();

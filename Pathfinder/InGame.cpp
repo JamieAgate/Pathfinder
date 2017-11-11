@@ -1,10 +1,14 @@
 #include "InGame.h"
 
-InGame::InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _aiStateManager) :
+InGame::InGame(StateManager* _stateManager, std::vector<Node*> _grid, StateManager* _breadthStateManager,StateManager* _bestFirstStateManager, StateManager* _aStarStateManager, SDL_Renderer* _renderer) :
 	StateTemplate(_stateManager)
 {
+	renderer = _renderer;
+
 	grid = _grid;
-	aiStateManager = _aiStateManager;
+	breadthStateManager = _breadthStateManager;
+	bestFirstManager = _bestFirstStateManager;
+	aStarManager = _aStarStateManager;
 }
 
 InGame::~InGame()
@@ -14,7 +18,9 @@ InGame::~InGame()
 
 void InGame::Update()
 {
-	aiStateManager->Update();
+	breadthStateManager->Update();
+	bestFirstManager->Update();
+	aStarManager->Update();
 }
 
 void InGame::Draw()
@@ -23,5 +29,7 @@ void InGame::Draw()
 	{
 		grid.at(i)->Draw();
 	}
-	aiStateManager->Draw();
+	breadthStateManager->Draw();
+	bestFirstManager->Draw();
+	aStarManager->Draw();
 }

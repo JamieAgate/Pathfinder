@@ -135,15 +135,14 @@ void Search::BestFirst()
 						if (!(std::find(Open.begin(), Open.end(), currentNeighbour) != Open.end()))
 						{
 							currentNeighbour->setParent(curr);
-							float a = (currentNeighbour->GetGridX() - end->GetGridX());
-							float b = (currentNeighbour->getGridY() - end->getGridY());
-							currentNeighbour->setH(sqrt((a*a) + (b*b)));
+							float a = abs(currentNeighbour->GetGridX() - end->GetGridX());
+							float b = abs(currentNeighbour->getGridY() - end->getGridY());
+							currentNeighbour->setH(sqrt((a*a) + (b*b))*10);
 							Open.push_back(currentNeighbour);
 
 							if (currentNeighbour != end && currentNeighbour != start)
 							{
 								noSearched++;
-								//Neighbours.at(i)->setTexture(searched);
 							}
 						}
 					}

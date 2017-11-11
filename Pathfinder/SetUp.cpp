@@ -1,6 +1,6 @@
 #include "SetUp.h"
 
-SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, SDL_Renderer* _renderer) :
+SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager, SDL_Renderer* _renderer) :
 	StateTemplate(_stateManager)
 {
 	renderer = _renderer;
@@ -26,11 +26,31 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, SDL_Renderer
 	bmp = IMG_Load("Searched.png");
 	searched = SDL_CreateTextureFromSurface(_renderer, bmp);
 
+	bmp = IMG_Load("Astar.png");
+	aStarTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+
+	bmp = IMG_Load("Best.png");
+	bestTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+
+	bmp = IMG_Load("BreadthPath.png");
+	breadthPath = SDL_CreateTextureFromSurface(renderer, bmp);
+
+	bmp = IMG_Load("BestPath.png");
+	bestPath = SDL_CreateTextureFromSurface(renderer, bmp);
+
+	bmp = IMG_Load("AStarPath.png");
+	aStarPath = SDL_CreateTextureFromSurface(renderer, bmp);
+
 	SDL_FreeSurface(bmp);
 
 	Select = new Cursor(_renderer, select, 0, 0, 32, 32);
-	start = new Sprite(_renderer, Start, -32, -32, 32, 32);
-	end = new Sprite(_renderer, End, -32, -32, 32, 32);
+	start = new Sprite(_renderer, Start, -32, -32, 32, 32,true);
+	end = new Sprite(_renderer, End, -32, -32, 32, 32,true);
+	bestSprite = new Sprite(_renderer, bestTex, -32, -32, 32, 32,true);
+	aStarSprite = new Sprite(_renderer, aStarTex, -32, -32, 32, 32, true);
+	breadthPathSprite = new Sprite(_renderer, breadthPath, -32, -32, 32, 32, true);
+	bestFirstPathSprite = new Sprite(_renderer, bestPath, -32, -32, 32, 32, true);
+	aStarPathSprite = new Sprite(_renderer,	aStarPath, -32, -32, 32, 32, true);
 
 	//make Grid
 	for (int x = 0; x < GridWIDTH; x++)
@@ -74,6 +94,7 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, SDL_Renderer
 				Grid.at(i)->SetNeighbours(Grid.at(i + 1));
 				Grid.at(i)->SetNeighbours(Grid.at(i - 1));
 			}
+			//inner diagonals
 			if (x != 0 && y != 0 && x != GridWIDTH - 1 && y != GridHEIGHT - 1)
 			{
 				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
@@ -122,8 +143,12 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, SDL_Renderer
 		}
 	}
 
-	aiStateManager = _aiManager;
-	breadthFirstData = new AIData(BREADTH, Grid, end);
+	breadthStateManager = _aiManager;
+	bestFirstManager = _bestFirstStateManager;
+	aStarManager = _aStarStateManager;
+	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer);
+	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer);
+	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer);
 }
 
 SetUp::~SetUp()
@@ -148,21 +173,27 @@ void SetUp::Update()
 
 	currentNode = Select->getMouseX() / 32 * 30 + Select->getMouseY() / 32;
 
-	//place start node
+	//place Player
 	if (key[SDL_SCANCODE_S])
 	{
 		if (previousStartNode != currentNode)
 		{
 			Grid.at(previousStartNode)->setIsStart(false);
+			Grid.at(previousStartNode)->setTexture(tile);
 			previousStartNode = currentNode;
 		}
 		start->SetX(Grid.at(currentNode)->GetX());
 		start->SetY(Grid.at(currentNode)->GetY());
 		Grid.at(currentNode)->setIsStart(true);
+		Grid.at(currentNode)->setTexture(Start);
+		StartNode = Grid.at(currentNode);
 		breadthFirstData->SetStartNode(Grid.at(currentNode));
+		bestFirstData->SetStartNode(Grid.at(currentNode));
+		aStarData->SetStartNode(Grid.at(currentNode));
+
 	}
-	//place end node
-	if (key[SDL_SCANCODE_E])
+	//place breadth first
+	if (key[SDL_SCANCODE_Z])
 	{
 		if (previousEndNode != currentNode)
 		{
@@ -173,7 +204,37 @@ void SetUp::Update()
 		end->SetY(Grid.at(currentNode)->GetY());
 		Grid.at(currentNode)->setIsGoal(true);
 		breadthFirstData->SetEndNode(Grid.at(currentNode));
+		breadthStateManager->AddState(new Idle(breadthStateManager, breadthFirstData));
 	}
+	//place best first
+	if (key[SDL_SCANCODE_X])
+	{
+		if (previousBestFirstNode != currentNode)
+		{
+			Grid.at(previousBestFirstNode)->setIsGoal(false);
+			previousBestFirstNode = currentNode;
+		}
+		bestSprite->SetX(Grid.at(currentNode)->GetX());
+		bestSprite->SetY(Grid.at(currentNode)->GetY());
+		Grid.at(currentNode)->setIsGoal(true);
+		bestFirstData->SetEndNode(Grid.at(currentNode));
+		bestFirstManager->AddState(new Idle(bestFirstManager, bestFirstData));
+	}
+	//place A star
+	if (key[SDL_SCANCODE_C])
+	{
+		if (previousAStarNode != currentNode)
+		{
+			Grid.at(previousAStarNode)->setIsGoal(false);
+			previousAStarNode = currentNode;
+		}
+		aStarSprite->SetX(Grid.at(currentNode)->GetX());
+		aStarSprite->SetY(Grid.at(currentNode)->GetY());
+		Grid.at(currentNode)->setIsGoal(true);
+		aStarData->SetEndNode(Grid.at(currentNode));
+		aStarManager->AddState(new Idle(aStarManager, aStarData));
+	}
+
 	//clear grid
 	if (key[SDL_SCANCODE_BACKSPACE])
 	{
@@ -183,7 +244,7 @@ void SetUp::Update()
 			_node->setMoveable(true);
 		}
 	}
-	//
+	//walls
 	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
 		if (key[SDL_SCANCODE_LCTRL])
@@ -198,56 +259,13 @@ void SetUp::Update()
 		}
 	}
 
-	if (key[SDL_SCANCODE_1])
-	{
-		aiStateManager->ChangeState(new Idle(aiStateManager, breadthFirstData));
-		searchType = BREADTH;
-	}
-
-	if (key[SDL_SCANCODE_3])
-	{
-		searchType = ASTAR;
-	}
-
-	if (key[SDL_SCANCODE_2])
-	{
-		searchType = BEST;
-	}
-
 	if (key[SDL_SCANCODE_RETURN])
 	{
-		stateManager->ChangeState(new InGame(stateManager, Grid, aiStateManager));
-	//	pathfound = false;
-	//	for (size_t i = 0; i < Grid.size(); i++)
-	//	{
-	//		if (!Grid.at(i)->getIsGoal() && !Grid.at(i)->getIsStart() && Grid.at(i)->getIsMoveable())
-	//		{
-	//			Grid.at(i)->setTexture(tile);
-	//		}
-	//	}
-	//	switch (searchType)
-	//	{
-	//	case(BREADTH):
-	//	{
-	//		//finished = BreadthSearch(StartNode, EndNode, pathfound, searched);
-	//		aiStateManager.Update();
-	//		break;
-	//	}
-	//	case(ASTAR):
-	//	{
-	//		//ResetAllNodes(Grid);
-	//		//finished = AStarSearch(StartNode, EndNode, pathfound, searched);
-	//		break;
-	//	}
-	//	case(BEST):
-	//	{
-	//		//ResetAllNodes(Grid);
-	//		//finished = BestFirst(StartNode, EndNode, pathfound, searched);
-	//		break;
-	//	}
-	//	}
+		if (breadthStateManager->GetSizeOfStateVector() != 0 && aStarManager->GetSizeOfStateVector() != 0 && bestFirstManager->GetSizeOfStateVector() != 0 && StartNode != nullptr)
+		{
+			stateManager->ChangeState(new InGame(stateManager, Grid, breadthStateManager,bestFirstManager,aStarManager,renderer));
+		}
 	}
-
 }
 
 void SetUp::Draw()
@@ -259,4 +277,6 @@ void SetUp::Draw()
 	Select->Draw();
 	start->Draw();
 	end->Draw();
+	bestSprite->Draw();
+	aStarSprite->Draw();
 }

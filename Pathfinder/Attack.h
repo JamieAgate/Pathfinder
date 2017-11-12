@@ -1,4 +1,9 @@
-#pragma once
+/// \file Attack.h
+/// \brief AI state that will be used when the AI is Attacking.
+
+#ifndef _ATTACK_H_
+#define _ATTACK_H_
+//File Includes
 #include "StateTemplate.h"
 #include "StateManager.h"
 #include "AI.h"
@@ -7,14 +12,19 @@
 class Attack : public StateTemplate
 {
 public:
-	Attack(StateManager* _stateManager, AIData* _agent);
-	~Attack();
+	Attack(StateManager* _stateManager, AIData* _agent);//Attack constuctor
+	~Attack();//Attack Destuructor
 
-	void Update();
+	void Update();//Update for Attack
 
-	void Draw();
+	void Draw();//Draw for Attack
 private:
-	AIData* m_agent;
-	int m_AttackTimer;
+	AIData* m_agent;//The agent in this state
+	int m_AttackTimer;//The timer before switching state
 };
+
+#endif // !_ATTACK_H_
+
+
+
 

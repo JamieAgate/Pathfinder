@@ -3,271 +3,267 @@
 SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager* _bestFirstStateManager, StateManager* _aStarStateManager, SDL_Renderer* _renderer) :
 	StateTemplate(_stateManager)
 {
-	renderer = _renderer;
+	m_renderer = _renderer;
 
 	SDL_Surface* bmp = IMG_Load("tile32.png");
-	tile = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_tile = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Start.png");
-	Start = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_Start = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("End.png");
-	End = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_End = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Wall.png");
-	Wall = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_Wall = SDL_CreateTextureFromSurface(_renderer, bmp);
 
-	bmp = IMG_Load("Select.png");
-	select = SDL_CreateTextureFromSurface(_renderer, bmp);
+	bmp = IMG_Load("m_Select.png");
+	m_select = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("path.png");
-	Path = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_Path = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Searched.png");
-	searched = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_searched = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Astar.png");
-	aStarTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_aStarTex = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Best.png");
-	bestTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_bestTex = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("BreadthPath.png");
-	breadthPath = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_breadthPath = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("BestPath.png");
-	bestPath = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_bestPath = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("AStarPath.png");
-	aStarPath = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_aStarPath = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("HighCost.png");
-	m_HighCost = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_HighCost = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("MedCost.png");
-	m_MedCost = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_MedCost = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("LowCost.png");
-	m_LowCost = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_LowCost = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Attack.png");
-	m_Attack = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_Attack = SDL_CreateTextureFromSurface(_renderer, bmp);
 
 	bmp = IMG_Load("Idle.png");
-	m_Idle = SDL_CreateTextureFromSurface(renderer, bmp);
+	m_Idle = SDL_CreateTextureFromSurface(_renderer, bmp);
 
-	Select = new Cursor(_renderer, select, 0, 0, 32, 32);
-	start = new Sprite(_renderer, Start, -32, -32, 32, 32,true);
-	end = new Sprite(_renderer, End, -32, -32, 32, 32,true);
-	bestSprite = new Sprite(_renderer, bestTex, -32, -32, 32, 32,true);
-	aStarSprite = new Sprite(_renderer, aStarTex, -32, -32, 32, 32, true);
-	breadthPathSprite = new Sprite(_renderer, breadthPath, -32, -32, 32, 32, true);
-	bestFirstPathSprite = new Sprite(_renderer, bestPath, -32, -32, 32, 32, true);
-	aStarPathSprite = new Sprite(_renderer,	aStarPath, -32, -32, 32, 32, true);
+	m_Select = new Cursor(_renderer, m_select, 0, 0, 32, 32);
+	m_start = new Sprite(_renderer, m_Start, -32, -32, 32, 32,true);
+	m_end = new Sprite(_renderer, m_End, -32, -32, 32, 32,true);
+	m_bestSprite = new Sprite(_renderer, m_bestTex, -32, -32, 32, 32,true);
+	m_aStarSprite = new Sprite(_renderer, m_aStarTex, -32, -32, 32, 32, true);
+	m_breadthPathSprite = new Sprite(_renderer, m_breadthPath, -32, -32, 32, 32, true);
+	m_bestFirstPathSprite = new Sprite(_renderer, m_bestPath, -32, -32, 32, 32, true);
+	m_aStarPathSprite = new Sprite(_renderer, m_aStarPath, -32, -32, 32, 32, true);
 	m_AttackSprite = new Sprite(_renderer, m_Attack, -32, -32, 32, 32, true);
 	m_IdleSprite = new Sprite(_renderer, m_Idle, -32, -32, 32, 32, true);
 
 	m_nodeCost = e_Wall;
 
-	//make Grid
-	for (int x = 0; x < GridWIDTH; x++)
+	//make m_Grid
+	for (int x = 0; x < m_GridWIDTH; x++)
 	{
-		for (int y = 0; y < GridHEIGHT; y++)
+		for (int y = 0; y < m_GridHEIGHT; y++)
 		{
-			Node* newNode = new Node(_renderer, tile, x * 32, y * 32, 32, 32, x, y);
-			Grid.push_back(newNode);
+			Node* newNode = new Node(_renderer, m_tile, x * 32, y * 32, 32, 32, x, y);
+			m_Grid.push_back(newNode);
 		}
 	}
 
 	bmp = IMG_Load("Start.png");
-	SDL_Texture* playerTex = SDL_CreateTextureFromSurface(_renderer, bmp);
-	player = new Player(_renderer, playerTex, 0, 0, 32, 32, true, Grid);
+	SDL_Texture* m_playerTex = SDL_CreateTextureFromSurface(_renderer, bmp);
+	m_player = new Player(_renderer, m_playerTex, 0, 0, 32, 32, true, m_Grid);
 
 	SDL_FreeSurface(bmp);
 	//make the neighbours
 	int i = 0;
-	for (int x = 0; x < GridWIDTH; x++) {
-		for (int y = 0; y < GridHEIGHT; y++)
+	for (int x = 0; x < m_GridWIDTH; x++) {
+		for (int y = 0; y < m_GridHEIGHT; y++)
 		{
 			if (x == 0)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH));
 			}
-			else if (x == GridWIDTH - 1)
+			else if (x == m_GridWIDTH - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridHEIGHT));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridHEIGHT));
 			}
 			else
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH));
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridHEIGHT));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridHEIGHT));
 			}
 
 			if (y == 0)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + 1));
 			}
-			else if (y == GridHEIGHT - 1)
+			else if (y == m_GridHEIGHT - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - 1));
 			}
 			else
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - 1));
 			}
 			//inner diagonals
-			if (x != 0 && y != 0 && x != GridWIDTH - 1 && y != GridHEIGHT - 1)
+			if (x != 0 && y != 0 && x != m_GridWIDTH - 1 && y != m_GridHEIGHT - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH + 1));
 			}
 			//edge diagonals
-			if (x == 0 && y != 0 && y != GridHEIGHT - 1)
+			if (x == 0 && y != 0 && y != m_GridHEIGHT - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH + 1));
 			}
-			if (y == 0 && x != 0 && x != GridWIDTH - 1)
+			if (y == 0 && x != 0 && x != m_GridWIDTH - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH + 1));
 			}
-			if (x == GridWIDTH - 1 && y != 0 && y != GridHEIGHT - 1)
+			if (x == m_GridWIDTH - 1 && y != 0 && y != m_GridHEIGHT - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH - 1));
 			}
-			if (y == GridHEIGHT - 1 && x != 0 && x != GridWIDTH - 1)
+			if (y == m_GridHEIGHT - 1 && x != 0 && x != m_GridWIDTH - 1)
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH - 1));
 			}
 			if (x == 0 && y == 0)//top left corner
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH + 1));
 			}
-			if (x == 0 && y == GridHEIGHT - 1)//bottom left corner
+			if (x == 0 && y == m_GridHEIGHT - 1)//bottom left corner
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i + GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i + m_GridWIDTH - 1));
 			}
-			if (x == GridWIDTH - 1 && y == 0)//top right corner
+			if (x == m_GridWIDTH - 1 && y == 0)//top right corner
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH + 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH + 1));
 			}
-			if (x == GridWIDTH - 1 && y == GridHEIGHT - 1)// bottom right corner
+			if (x == m_GridWIDTH - 1 && y == m_GridHEIGHT - 1)// bottom right corner
 			{
-				Grid.at(i)->SetNeighbours(Grid.at(i - GridWIDTH - 1));
+				m_Grid.at(i)->SetNeighbours(m_Grid.at(i - m_GridWIDTH - 1));
 			}
 			i++;
 		}
 	}
 
-	breadthStateManager = _aiManager;
-	bestFirstManager = _bestFirstStateManager;
-	aStarManager = _aStarStateManager;
-	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer,player,m_AttackSprite,m_IdleSprite);
-	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer,player, m_AttackSprite, m_IdleSprite);
-	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer,player, m_AttackSprite, m_IdleSprite);
+	m_breadthStateManager = _aiManager;
+	m_bestFirstManager = _bestFirstStateManager;
+	m_aStarManager = _aStarStateManager;
+	m_breadthFirstData = new AIData(BREADTH, m_Grid, m_end, m_breadthPath,m_renderer, m_player,m_AttackSprite,m_IdleSprite);
+	m_bestFirstData = new AIData(BEST, m_Grid, m_bestSprite, m_bestPath, m_renderer, m_player, m_AttackSprite, m_IdleSprite);
+	m_aStarData = new AIData(ASTAR, m_Grid, m_aStarSprite, m_aStarPath, m_renderer, m_player, m_AttackSprite, m_IdleSprite);
 }
 
 SetUp::~SetUp()
 {
-	for (size_t i = 0; i < Grid.size(); i++)
+	for (size_t i = 0; i < m_Grid.size(); i++)
 	{
-		delete Grid.at(i);
+		delete m_Grid.at(i);
 	}
-	Grid.clear();
-	delete Select;
-	delete start;
-	delete end;
-	delete StartNode;
-	delete EndNode;
+	m_Grid.clear();
+	delete m_Select;
+	delete m_start;
+	delete m_end;
+	delete m_StartNode;
+	delete m_EndNode;
 }
 
 void SetUp::Update()
 {
-	Select->update();
+	m_Select->update();
 	const Uint8* key = SDL_GetKeyboardState(NULL);
 
 
-	currentNode = Select->getMouseX() / 32 * 30 + Select->getMouseY() / 32;
+	m_currentNode = m_Select->getMouseX() / 32 * 30 + m_Select->getMouseY() / 32;
 
-	//place Player
+	//place m_player
 	if (key[SDL_SCANCODE_S])
 	{
-		if (previousStartNode != currentNode)
+		if (m_previousStartNode != m_currentNode)
 		{
-			Grid.at(previousStartNode)->setIsStart(false);
-			Grid.at(previousStartNode)->setTexture(tile);
-			previousStartNode = currentNode;
+			m_Grid.at(m_previousStartNode)->setIsStart(false);
+			m_Grid.at(m_previousStartNode)->setTexture(m_tile);
+			m_previousStartNode = m_currentNode;
 		}
-		//start->SetX(Grid.at(currentNode)->GetX());
-		//start->SetY(Grid.at(currentNode)->GetY());
-		//Grid.at(currentNode)->setIsStart(true);
-		//Grid.at(currentNode)->setTexture(Start);
-		StartNode = Grid.at(currentNode);
+		m_StartNode = m_Grid.at(m_currentNode);
 
-		player->SetX((Select->getMouseX() / 32) * 32);
-		player->SetY((Select->getMouseY() / 32) * 32);
-		player->SetCurrentNode();
+		m_player->SetX((m_Select->getMouseX() / 32) * 32);
+		m_player->SetY((m_Select->getMouseY() / 32) * 32);
+		m_player->SetCurrentNode();
 
-		breadthFirstData->SetStartNode(Grid.at(currentNode));
-		bestFirstData->SetStartNode(Grid.at(currentNode));
-		aStarData->SetStartNode(Grid.at(currentNode));
+		m_breadthFirstData->SetStartNode(m_Grid.at(m_currentNode));
+		m_bestFirstData->SetStartNode(m_Grid.at(m_currentNode));
+		m_aStarData->SetStartNode(m_Grid.at(m_currentNode));
 
 	}
 	//place breadth first
 	if (key[SDL_SCANCODE_Z])
 	{
-		if (previousEndNode != currentNode)
+		if (m_previousEndNode != m_currentNode)
 		{
-			Grid.at(previousEndNode)->setIsGoal(false);
-			previousEndNode = currentNode;
+			m_Grid.at(m_previousEndNode)->setIsGoal(false);
+			m_previousEndNode = m_currentNode;
 		}
-		end->SetX(Grid.at(currentNode)->GetX());
-		end->SetY(Grid.at(currentNode)->GetY());
-		Grid.at(currentNode)->setIsGoal(true);
-		breadthFirstData->SetEndNode(Grid.at(currentNode));
-		breadthStateManager->AddState(new Idle(breadthStateManager, breadthFirstData));
+		m_end->SetX(m_Grid.at(m_currentNode)->GetX());
+		m_end->SetY(m_Grid.at(m_currentNode)->GetY());
+		m_Grid.at(m_currentNode)->setIsGoal(true);
+		m_breadthFirstData->SetEndNode(m_Grid.at(m_currentNode));
+		m_breadthStateManager->AddState(new Idle(m_breadthStateManager, m_breadthFirstData));
 	}
 	//place best first
 	if (key[SDL_SCANCODE_X])
 	{
-		if (previousBestFirstNode != currentNode)
+		if (m_previousBestFirstNode != m_currentNode)
 		{
-			Grid.at(previousBestFirstNode)->setIsGoal(false);
-			previousBestFirstNode = currentNode;
+			m_Grid.at(m_previousBestFirstNode)->setIsGoal(false);
+			m_previousBestFirstNode = m_currentNode;
 		}
-		bestSprite->SetX(Grid.at(currentNode)->GetX());
-		bestSprite->SetY(Grid.at(currentNode)->GetY());
-		Grid.at(currentNode)->setIsGoal(true);
-		bestFirstData->SetEndNode(Grid.at(currentNode));
-		bestFirstManager->AddState(new Idle(bestFirstManager, bestFirstData));
+		m_bestSprite->SetX(m_Grid.at(m_currentNode)->GetX());
+		m_bestSprite->SetY(m_Grid.at(m_currentNode)->GetY());
+		m_Grid.at(m_currentNode)->setIsGoal(true);
+		m_bestFirstData->SetEndNode(m_Grid.at(m_currentNode));
+		m_bestFirstManager->AddState(new Idle(m_bestFirstManager, m_bestFirstData));
 	}
 	//place A star
 	if (key[SDL_SCANCODE_C])
 	{
-		if (previousAStarNode != currentNode)
+		if (m_previousAStarNode != m_currentNode)
 		{
-			Grid.at(previousAStarNode)->setIsGoal(false);
-			previousAStarNode = currentNode;
+			m_Grid.at(m_previousAStarNode)->setIsGoal(false);
+			m_previousAStarNode = m_currentNode;
 		}
-		aStarSprite->SetX(Grid.at(currentNode)->GetX());
-		aStarSprite->SetY(Grid.at(currentNode)->GetY());
-		Grid.at(currentNode)->setIsGoal(true);
-		aStarData->SetEndNode(Grid.at(currentNode));
-		aStarManager->AddState(new Idle(aStarManager, aStarData));
+		m_aStarSprite->SetX(m_Grid.at(m_currentNode)->GetX());
+		m_aStarSprite->SetY(m_Grid.at(m_currentNode)->GetY());
+		m_Grid.at(m_currentNode)->setIsGoal(true);
+		m_aStarData->SetEndNode(m_Grid.at(m_currentNode));
+		m_aStarManager->AddState(new Idle(m_aStarManager, m_aStarData));
 	}
 
-	//clear grid
+	//clear m_Grid
 	if (key[SDL_SCANCODE_BACKSPACE])
 	{
-		for each(Node* _node in Grid)
+		for each(Node* _node in m_Grid)
 		{
-			_node->setTexture(tile);
+			_node->setTexture(m_tile);
 			_node->setMoveable(true);
 		}
 	}
@@ -293,9 +289,9 @@ void SetUp::Update()
 	{
 		if (key[SDL_SCANCODE_LCTRL])
 		{
-				Grid.at(currentNode)->setTexture(tile);
-				Grid.at(currentNode)->SetNodeCost(0);
-				Grid.at(currentNode)->setMoveable(true);
+				m_Grid.at(m_currentNode)->setTexture(m_tile);
+				m_Grid.at(m_currentNode)->SetNodeCost(0);
+				m_Grid.at(m_currentNode)->setMoveable(true);
 
 		}
 		else
@@ -304,29 +300,29 @@ void SetUp::Update()
 			{
 			case(e_Wall):
 			{
-				Grid.at(currentNode)->setTexture(Wall);
-				Grid.at(currentNode)->setMoveable(false);
+				m_Grid.at(m_currentNode)->setTexture(m_Wall);
+				m_Grid.at(m_currentNode)->setMoveable(false);
 				break;
 			}
 			case(e_High):
 			{
-				Grid.at(currentNode)->setTexture(m_HighCost);
-				Grid.at(currentNode)->SetNodeCost(6);
-				Grid.at(currentNode)->setMoveable(true);
+				m_Grid.at(m_currentNode)->setTexture(m_HighCost);
+				m_Grid.at(m_currentNode)->SetNodeCost(6);
+				m_Grid.at(m_currentNode)->setMoveable(true);
 				break;
 			}
 			case(e_Med):
 			{
-				Grid.at(currentNode)->setTexture(m_MedCost);
-				Grid.at(currentNode)->SetNodeCost(4);
-				Grid.at(currentNode)->setMoveable(true);
+				m_Grid.at(m_currentNode)->setTexture(m_MedCost);
+				m_Grid.at(m_currentNode)->SetNodeCost(4);
+				m_Grid.at(m_currentNode)->setMoveable(true);
 				break;
 			}
 			case(e_Low):
 			{
-				Grid.at(currentNode)->setTexture(m_LowCost);
-				Grid.at(currentNode)->SetNodeCost(2);
-				Grid.at(currentNode)->setMoveable(true);
+				m_Grid.at(m_currentNode)->setTexture(m_LowCost);
+				m_Grid.at(m_currentNode)->SetNodeCost(2);
+				m_Grid.at(m_currentNode)->setMoveable(true);
 				break;
 			}
 			}
@@ -335,23 +331,23 @@ void SetUp::Update()
 
 	if (key[SDL_SCANCODE_RETURN])
 	{
-		if (breadthStateManager->GetSizeOfStateVector() != 0 && aStarManager->GetSizeOfStateVector() != 0 && bestFirstManager->GetSizeOfStateVector() != 0 && StartNode != nullptr)
+		if (m_breadthStateManager->GetSizeOfStateVector() != 0 && m_aStarManager->GetSizeOfStateVector() != 0 && m_bestFirstManager->GetSizeOfStateVector() != 0 && m_StartNode != nullptr)
 		{
-			stateManager->ChangeState(new InGame(stateManager, Grid, breadthStateManager,bestFirstManager,aStarManager,renderer,player));
+			stateManager->ChangeState(new InGame(stateManager, m_Grid, m_breadthStateManager,m_bestFirstManager,m_aStarManager,m_renderer,m_player));
 		}
 	}
 }
 
 void SetUp::Draw()
 {
-	for (size_t i = 0; i < Grid.size(); i++)
+	for (size_t i = 0; i < m_Grid.size(); i++)
 	{
-		Grid.at(i)->Draw();
+		m_Grid.at(i)->Draw();
 	}
-	Select->Draw();
-	start->Draw();
-	end->Draw();
-	bestSprite->Draw();
-	aStarSprite->Draw();
-	player->Draw();
+	m_Select->Draw();
+	m_start->Draw();
+	m_end->Draw();
+	m_bestSprite->Draw();
+	m_aStarSprite->Draw();
+	m_player->Draw();
 }

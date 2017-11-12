@@ -5,7 +5,7 @@
 
 class AIData {
 public:
-	AIData(int _searchType, std::vector<Node*> _grid, Sprite* _sprite, SDL_Texture* _pathSprite,SDL_Renderer* _renderer, Player* _player);
+	AIData(int _searchType, std::vector<Node*> _grid, Sprite* _sprite, SDL_Texture* _pathSprite,SDL_Renderer* _renderer, Player* _player,Sprite* _attack, Sprite* _Idle);
 	~AIData();
 
 	void Update();
@@ -20,6 +20,8 @@ public:
 	int GetSizeOfPath() { return sizeOfPath; }
 	int GetCurrentSizeOfPath() { return path.size(); }
 	std::vector<Node*> GetGrid() { return player->GetGrid(); }
+	int GetDistanceForPlayer();
+
 
 	void SetPostitionInGridVector(int _g) { positionInGridVector = _g; }
 	void SetStartNode(Node* _start) { start = _start; }
@@ -28,9 +30,11 @@ public:
 	void SetSizeOfPath(int _n) { sizeOfPath = _n; }
 
 	void Move();
+	void MakeDrawPath();
 
 	void Draw();
-	void MakeDrawPath();
+	void DrawAttack();
+	void DrawIdle();
 	void DrawPath();
 protected:
 	Player* player;
@@ -38,6 +42,8 @@ protected:
 	Node* start;
 	Node* end;
 	Sprite* image;
+	Sprite* attack;
+	Sprite* idle;
 	SDL_Texture* pathSprite;
 	enum e_searchType { BREADTH, BEST, ASTAR };
 	int searchType;

@@ -22,8 +22,8 @@ Search::~Search()
 
 void Search::Update()
 {
-	end = agent->GetCurrentOccupiedNode();
-	start = agent->GetPathEndNode();
+	start = agent->GetCurrentOccupiedNode();
+	end = agent->GetPathEndNode();
 	ResetGrid();
 	switch (agent->GetSearchType())
 	{
@@ -260,7 +260,7 @@ void Search::AStarSearch()
 						currentNeighbour->setG(currentNode->getG() + cost);//set the G score
 						float a = abs((currentNeighbour->GetGridX() - end->GetGridX()));
 						float b = abs((currentNeighbour->getGridY() - end->getGridY()));
-						currentNeighbour->setH(sqrt((a*a) + (b*b)) * 10);//calculate H
+						currentNeighbour->setH((sqrt((a*a) + (b*b)) * 10) + currentNeighbour->GetNodeCost());//calculate H
 						currentNeighbour->setF();//set F
 						Open.push_back(currentNeighbour);//push back neighbour
 					}

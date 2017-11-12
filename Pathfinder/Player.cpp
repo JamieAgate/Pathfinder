@@ -18,22 +18,22 @@ void Player::Update()
 	const Uint8* key = SDL_GetKeyboardState(NULL);
 	if (SDL_GetTicks() > inputDelay)
 	{
-		if (key[SDL_SCANCODE_W])
+		if (key[SDL_SCANCODE_W] && grid.at((GetX()/32 *30 + GetY()/32)- 1)->getIsMoveable())
 		{
 			SetY((GetY() - 32));
 			inputDelay = SDL_GetTicks() + 200;
 		}
-		if (key[SDL_SCANCODE_S])
+		if (key[SDL_SCANCODE_S] && grid.at((GetX() / 32 * 30 + GetY() / 32) + 1)->getIsMoveable())
 		{
 			SetY((GetY() + 32));
 			inputDelay = SDL_GetTicks() + 200;
 		}
-		if (key[SDL_SCANCODE_A])
+		if (key[SDL_SCANCODE_A] && grid.at((GetX() / 32 * 30 + GetY() / 32) - 30)->getIsMoveable())
 		{
 			SetX((GetX() - 32));
 			inputDelay = SDL_GetTicks() + 200;
 		}
-		if (key[SDL_SCANCODE_D])
+		if (key[SDL_SCANCODE_D] && grid.at((GetX() / 32 * 30 + GetY() / 32) + 30)->getIsMoveable())
 		{
 			SetX((GetX() + 32));
 			inputDelay = SDL_GetTicks() + 200;

@@ -20,7 +20,7 @@ public:
 	double getH() { return h; }
 	double getG() { return g; }
 	double getF() { return f; }
-
+	int GetNodeCost() { return nodeCost; }
 
 	void setGridX(int _x) { x = _x; };
 	void setGridY(int _y) { y = _y; };
@@ -32,12 +32,14 @@ public:
 	void setH(double _h) { h = _h; }
 	void setG(double _g) { g = _g; }
 	void setF() { f = g+h; }
+	void SetNodeCost(int _n) { nodeCost = _n; }
 
 	void Draw();
 private:
 	double h;
 	double g;
 	double f;
+	int nodeCost;
 	std::vector <Node*> Neighbours;
 	Node* parent;
 	int x;

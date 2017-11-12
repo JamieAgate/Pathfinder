@@ -5,6 +5,7 @@
 #include "StateManager.h"
 #include "Node.h"
 #include "Player.h"
+#include "SetUp.h"
 
 class InGame : public StateTemplate
 {

@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AI.cpp" />
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Idle.cpp" />
     <ClCompile Include="InGame.cpp" />
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI.h" />
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Idle.h" />
     <ClInclude Include="InGame.h" />

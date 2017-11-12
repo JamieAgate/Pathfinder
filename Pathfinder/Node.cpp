@@ -12,6 +12,7 @@ Node::Node(SDL_Renderer* _renderer, SDL_Texture* _tex, int _x, int _y, int _w, i
 	f = 0;
 	g = 0;
 	h = 0;
+	nodeCost = 0;
 }
 
 Node ::~Node()

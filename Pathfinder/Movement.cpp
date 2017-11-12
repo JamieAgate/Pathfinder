@@ -37,6 +37,10 @@ void Movement::Update()
 		{
 			stateManager->ChangeState(new Search(stateManager, agent));
 		}
+		else if (agent->GetDistanceForPlayer() <= 128)
+		{
+			stateManager->ChangeState(new Attack(stateManager, agent));
+		}
 	break;
 	}
 	case(e_Path):

@@ -43,16 +43,26 @@ protected:
 	SDL_Texture* searched;
 	SDL_Texture* aStarTex;
 	SDL_Texture* bestTex;
+	SDL_Texture* breadthPath;
+	SDL_Texture* bestPath;
+	SDL_Texture* aStarPath;
+	SDL_Texture* m_HighCost;
+	SDL_Texture* m_MedCost;
+	SDL_Texture* m_LowCost;
+	SDL_Texture* m_Attack;
+	SDL_Texture* m_Idle;
+
+	enum WallCost {e_Wall,e_High,e_Med,e_Low};
+	int m_nodeCost;
 
 	Cursor* Select;
 	Sprite* start;
 	Sprite* end;
 	Sprite* bestSprite;
 	Sprite* aStarSprite;
+	Sprite* m_AttackSprite;
+	Sprite* m_IdleSprite;
 
-	SDL_Texture* breadthPath;
-	SDL_Texture* bestPath;
-	SDL_Texture* aStarPath;
 	Sprite* breadthPathSprite;
 	Sprite* bestFirstPathSprite;
 	Sprite* aStarPathSprite;

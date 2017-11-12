@@ -20,11 +20,16 @@ InGame::~InGame()
 
 void InGame::Update()
 {
+	const Uint8* key = SDL_GetKeyboardState(NULL);
 	breadthStateManager->Update();
 	bestFirstManager->Update();
 	aStarManager->Update();
 
 	player->Update();
+	if (key[SDL_SCANCODE_BACKSPACE])
+	{
+		stateManager->ChangeState(new SetUp(stateManager,breadthStateManager,bestFirstManager,aStarManager,renderer));
+	}
 }
 
 void InGame::Draw()

@@ -6,6 +6,7 @@
 #include "Node.h"
 #include "AI.h"
 #include "Search.h"
+#include "Attack.h"
 
 class Movement : public StateTemplate
 {

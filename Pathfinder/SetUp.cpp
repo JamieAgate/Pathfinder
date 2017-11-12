@@ -41,7 +41,20 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 	bmp = IMG_Load("AStarPath.png");
 	aStarPath = SDL_CreateTextureFromSurface(renderer, bmp);
 
+	bmp = IMG_Load("HighCost.png");
+	m_HighCost = SDL_CreateTextureFromSurface(renderer, bmp);
 
+	bmp = IMG_Load("MedCost.png");
+	m_MedCost = SDL_CreateTextureFromSurface(renderer, bmp);
+
+	bmp = IMG_Load("LowCost.png");
+	m_LowCost = SDL_CreateTextureFromSurface(renderer, bmp);
+
+	bmp = IMG_Load("Attack.png");
+	m_Attack = SDL_CreateTextureFromSurface(renderer, bmp);
+
+	bmp = IMG_Load("Idle.png");
+	m_Idle = SDL_CreateTextureFromSurface(renderer, bmp);
 
 	Select = new Cursor(_renderer, select, 0, 0, 32, 32);
 	start = new Sprite(_renderer, Start, -32, -32, 32, 32,true);
@@ -51,6 +64,10 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 	breadthPathSprite = new Sprite(_renderer, breadthPath, -32, -32, 32, 32, true);
 	bestFirstPathSprite = new Sprite(_renderer, bestPath, -32, -32, 32, 32, true);
 	aStarPathSprite = new Sprite(_renderer,	aStarPath, -32, -32, 32, 32, true);
+	m_AttackSprite = new Sprite(_renderer, m_Attack, -32, -32, 32, 32, true);
+	m_IdleSprite = new Sprite(_renderer, m_Idle, -32, -32, 32, 32, true);
+
+	m_nodeCost = e_Wall;
 
 	//make Grid
 	for (int x = 0; x < GridWIDTH; x++)
@@ -151,9 +168,9 @@ SetUp::SetUp(StateManager* _stateManager, StateManager* _aiManager, StateManager
 	breadthStateManager = _aiManager;
 	bestFirstManager = _bestFirstStateManager;
 	aStarManager = _aStarStateManager;
-	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer,player);
-	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer,player);
-	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer,player);
+	breadthFirstData = new AIData(BREADTH, Grid, end,breadthPath,renderer,player,m_AttackSprite,m_IdleSprite);
+	bestFirstData = new AIData(BEST, Grid, bestSprite,bestPath, renderer,player, m_AttackSprite, m_IdleSprite);
+	aStarData = new AIData(ASTAR, Grid, aStarSprite,aStarPath, renderer,player, m_AttackSprite, m_IdleSprite);
 }
 
 SetUp::~SetUp()
@@ -255,17 +272,64 @@ void SetUp::Update()
 		}
 	}
 	//walls
+	if (key[SDL_SCANCODE_1])
+	{
+		m_nodeCost = e_Wall;
+	}
+	if (key[SDL_SCANCODE_2])
+	{
+		m_nodeCost = e_High;
+	}
+	if (key[SDL_SCANCODE_3])
+	{
+		m_nodeCost = e_Med;
+	}
+	if (key[SDL_SCANCODE_4])
+	{
+		m_nodeCost = e_Low;
+	}
+
 	if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
 		if (key[SDL_SCANCODE_LCTRL])
 		{
-			Grid.at(currentNode)->setTexture(tile);
-			Grid.at(currentNode)->setMoveable(true);
+				Grid.at(currentNode)->setTexture(tile);
+				Grid.at(currentNode)->SetNodeCost(0);
+				Grid.at(currentNode)->setMoveable(true);
+
 		}
 		else
 		{
-			Grid.at(currentNode)->setTexture(Wall);
-			Grid.at(currentNode)->setMoveable(false);
+			switch (m_nodeCost)
+			{
+			case(e_Wall):
+			{
+				Grid.at(currentNode)->setTexture(Wall);
+				Grid.at(currentNode)->setMoveable(false);
+				break;
+			}
+			case(e_High):
+			{
+				Grid.at(currentNode)->setTexture(m_HighCost);
+				Grid.at(currentNode)->SetNodeCost(6);
+				Grid.at(currentNode)->setMoveable(true);
+				break;
+			}
+			case(e_Med):
+			{
+				Grid.at(currentNode)->setTexture(m_MedCost);
+				Grid.at(currentNode)->SetNodeCost(4);
+				Grid.at(currentNode)->setMoveable(true);
+				break;
+			}
+			case(e_Low):
+			{
+				Grid.at(currentNode)->setTexture(m_LowCost);
+				Grid.at(currentNode)->SetNodeCost(2);
+				Grid.at(currentNode)->setMoveable(true);
+				break;
+			}
+			}
 		}
 	}
 

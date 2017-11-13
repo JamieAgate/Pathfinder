@@ -1,8 +1,7 @@
 /// \file StateManager.h
 /// \brief Will manage all state based systems.
+#pragma once
 
-#ifndef _STATEMANAGER_H_
-#define _STATEMANGER_H_
 //File Includes
 #include <vector>
 //Additional File Includes
@@ -26,4 +25,3 @@ protected:
 	std::vector<StateTemplate*> m_stateVector;//vector of states
 };
 
-#endif // !_STATEMANAGER_H_

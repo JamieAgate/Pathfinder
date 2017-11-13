@@ -1,44 +1,46 @@
+/// @file StateManager.cpp
+/// @brief The Manager for all states in the state machine
 #include "StateManager.h"
 
 StateManager::~StateManager()
 {
-	for (unsigned int i = 0; i < stateVector.size(); i++)//destroy all game states in the game states vector
+	for ( unsigned int i = 0; i < m_stateVector.size(); i++ )//destroy all game states in the game states vector
 	{
-		delete stateVector.at(i);
+		delete m_stateVector.at( i );
 	}
 }
 
-void StateManager::AddState(StateTemplate* _state)
+void StateManager::AddState( StateTemplate* _state )
 {
-	stateVector.push_back(_state);
+	m_stateVector.push_back( _state );//push the state into the vector
 }
 
-void StateManager::ChangeState(StateTemplate* _state)
+void StateManager::ChangeState( StateTemplate* _state )
 {
-	for (unsigned int i = 0; i < stateVector.size(); i++)//delete current game state
+	for ( unsigned int i = 0; i < m_stateVector.size(); i++ )//delete current game state
 	{
-		delete stateVector.at(i);
+		delete m_stateVector.at( i );
 	}
 
-	stateVector.clear();//clear the vector
-	AddState(_state);//add new game state
+	m_stateVector.clear();//clear the vector
+	AddState( _state );//add new game state
 }
 
 void StateManager::RemoveLastState()
 {
-	delete stateVector.back();
-	stateVector.pop_back();
+	delete m_stateVector.back();//delete the last game state
+	m_stateVector.pop_back();
 }
 
 void StateManager::Update()
 {
-	stateVector.back()->Update();
+	m_stateVector.back()->Update();//update the top state on the vector
 }
 
 void StateManager::Draw()
 {
-	for (unsigned int i = 0; i < stateVector.size(); i++)
+	for ( unsigned int i = 0; i < m_stateVector.size(); i++ )
 	{
-		stateVector.at(i)->Draw();
+		m_stateVector.at( i )->Draw();//draw all states in the vector
 	}
 }

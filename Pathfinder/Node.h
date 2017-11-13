@@ -20,7 +20,7 @@ public:
 	bool getIsGoal() { return m_isGoal; }//Get if the node is the goal node or not
 	std::vector<Node*> getNeighbours() { return m_Neighbours; }//get all of the nodes neighbours
 	Node* getParent() { return m_parent; }//get the Nodes Parent
-	bool getIsMoveable() { return Moveable; }//Get if the node is Moveable(A Wall) or not
+	bool getIsMoveable() { return m_Moveable; }//Get if the node is Moveable(A Wall) or not
 	bool getIsStart() { return m_isStart; }//Get if the Node is the start node
 	double getH() { return m_h; }//Get the nodes H value
 	double getG() { return m_g; }//Get the nodes G value
@@ -29,7 +29,7 @@ public:
 
 	void setGridX(int _x) { m_x = _x; };//set the x co-ordinate of the node in the grid
 	void setGridY(int _y) { m_y = _y; };//set the y co-ordinate of the node in the grid
-	void setMoveable(bool _b) { Moveable = _b; }//set if the Node is Moveable(A Wall) or not
+	void setMoveable(bool _b) { m_Moveable = _b; }//set if the Node is Moveable(A Wall) or not
 	void SetNeighbours(Node* _node);//Add a node to the Neighbours vector
 	void setIsGoal(bool _b) { m_isGoal = _b; }//Set if the node is the goal
 	void setParent(Node* _n) { m_parent = _n; }//get the parent node
@@ -49,7 +49,7 @@ private:
 	Node* m_parent;//the nodes parent
 	int m_x;//the x co-ordinate in the grid
 	int m_y;//the y co-ordinate in the grid
-	bool Moveable;//if the node is moveable
+	bool m_Moveable;//if the node is moveable
 	bool m_isGoal;//if the node is the goal
 	bool m_isStart;//if the node is the start node
 };

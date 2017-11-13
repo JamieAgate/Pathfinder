@@ -1,13 +1,13 @@
 /// \file Idle.h
 /// \brief AI state that will be used when the AI is Idle.
+#pragma once
 
-#ifndef _IDLE_H_
-#define _IDLE_H_
+
 //File Includes
 #include <time.h>
-
 #include "StateTemplate.h"
 #include "StateManager.h"
+
 #include "Search.h"
 
 class Idle : public StateTemplate {
@@ -25,7 +25,7 @@ protected:
 };
 
 
-#endif // !_IDLE_H_
+
 
 
 

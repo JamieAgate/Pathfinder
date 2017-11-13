@@ -1,8 +1,8 @@
 /// \file StateTemplate.h
 /// \brief Template that all other states will inherit from.
 
-#ifndef STATETEMPLATE_H
-#define STATETEMPLATE_H
+#ifndef _STATETEMPLATE_H_
+#define _STATETEMPLATE_H_
 //File Includes
 #include <SDL.h>
 

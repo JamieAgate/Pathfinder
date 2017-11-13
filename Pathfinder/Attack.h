@@ -1,8 +1,8 @@
 /// \file Attack.h
 /// \brief AI state that will be used when the AI is Attacking.
+#pragma once
 
-#ifndef _ATTACK_H_
-#define _ATTACK_H_
+
 //File Includes
 #include "StateTemplate.h"
 #include "StateManager.h"
@@ -23,7 +23,7 @@ private:
 	int m_AttackTimer;//The timer before switching state
 };
 
-#endif // !_ATTACK_H_
+
 
 
 

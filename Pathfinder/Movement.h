@@ -1,8 +1,8 @@
 /// \file Idle.h
 /// \brief AI state that will be used when the AI is Moving.
 
-#ifndef _MOVEMENT_H_
-#define _MOVEMENT_H_
+#pragma once
+
 //File Includes
 #include <vector>
 //Aditional File Includes
@@ -32,6 +32,6 @@ protected:
 	int m_stateSwtich;//switch for differnet states
 };
 
-#endif // !_MOVEMENT_H_
+
 
 

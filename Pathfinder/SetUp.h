@@ -1,8 +1,8 @@
 /// \file InGame.h
 /// \brief Game State that will run when setting up the game.
+#pragma once
 
-#ifndef	_SETUP_H_
-#define _SETUP_H_
+
 //File Includes
 #include <SDL.h>
 #include <SDL_image.h>
@@ -31,7 +31,7 @@ protected:
 	int m_GridWIDTH = 30;//the grid width
 	int m_GridHEIGHT = 30;//the grid height
 	int m_previousStartNode = 0;//the location of the previous start node(Player) in the grid vector
-	int m_previousEndNode = 0;.// the location of the previous breadth first node in the vector
+	int m_previousEndNode = 0;// the location of the previous breadth first node in the vector
 	int m_previousAStarNode = 0;//the location of the previous best first node in the vector
 	int m_previousBestFirstNode = 0;// the location of the previous a* node in the vector
 	int m_currentNode = 0;//location of the current node in the vector that the mouse is over
@@ -82,4 +82,3 @@ protected:
 	AIData* m_aStarData;//a* agent
 };
 
-#endif // _SETUP_H_

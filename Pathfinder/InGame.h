@@ -1,8 +1,8 @@
 /// \file InGame.h
 /// \brief Game State that will run when in Game.
+#pragma once
 
-#ifndef _INGAME_H_
-#define _INGAME_H_
+
 //File includes
 #include <vector>
 //Additional File Includes
@@ -27,8 +27,7 @@ protected:
 	StateManager* m_breadthStateManager;//The State Manager for the Breadth-First AI
 	StateManager* m_bestFirstManager;//The State Manager for the Best-First AI
 	StateManager* m_aStarManager;//The State Manager for the A* AI
-
-	Player* player;//The Player
-#endif // _INGAME_H_
-
+	Player* m_player;//The Player
 };
+
+

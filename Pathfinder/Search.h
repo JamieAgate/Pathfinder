@@ -1,8 +1,9 @@
 /// \file Search.h
 /// \brief AI state that will be used when the AI is Searching.
 
-#ifndef SEARCH_H
-#define SEARCH_H
+#pragma once
+
+
 //File Includes
 #include <algorithm>
 #include <vector>
@@ -41,4 +42,4 @@ private:
 	void ReEvaluate(Node* _neighbour, Node* _node, std::vector <Node*> _vec, float cost);//function to Re-Evaluate the parent of a node
 };
 
-#endif
+

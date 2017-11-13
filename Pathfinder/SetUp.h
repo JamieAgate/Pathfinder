@@ -1,7 +1,7 @@
 /// \file InGame.h
 /// \brief Game State that will run when setting up the game.
 #pragma once
-
+//CANT USE CUSTOM HEADER GAURD OR WILL CAUSE CLASS TYPE REDEFENITIONS
 
 //File Includes
 #include <SDL.h>

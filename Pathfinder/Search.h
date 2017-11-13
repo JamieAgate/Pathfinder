@@ -1,8 +1,7 @@
 /// \file Search.h
 /// \brief AI state that will be used when the AI is Searching.
-
 #pragma once
-
+//CANT USE CUSTOM HEADER GAURD OR WILL CAUSE CLASS TYPE REDEFENITIONS
 
 //File Includes
 #include <algorithm>

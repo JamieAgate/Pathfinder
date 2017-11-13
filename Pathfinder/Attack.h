@@ -1,7 +1,7 @@
 /// \file Attack.h
 /// \brief AI state that will be used when the AI is Attacking.
 #pragma once
-
+//CANT USE CUSTOM HEADER GAURD OR WILL CAUSE CLASS TYPE REDEFENITIONS
 
 //File Includes
 #include "StateTemplate.h"

@@ -1,6 +1,7 @@
 /// \file StateManager.h
 /// \brief Will manage all state based systems.
 #pragma once
+//CANT USE CUSTOM HEADER GAURD OR WILL CAUSE CLASS TYPE REDEFENITIONS
 
 //File Includes
 #include <vector>
